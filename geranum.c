@@ -12,9 +12,9 @@ int main(){
 	char num2[MAX] = {'\0'};
 	int chave;	
 	
-	printf("Ensira o primeiro número primo: ");
+	printf("Insira o primeiro número primo: ");
 	fgets(num1,MAX,stdin);
-	printf("Ensira o segundo número primo: ");
+	printf("Insira o segundo número primo: ");
 	fgets(num2,MAX,stdin);
 	
 	if(testeprimo(num1,num2)){
