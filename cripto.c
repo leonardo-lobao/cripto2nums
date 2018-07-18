@@ -1,28 +1,43 @@
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 
-#define MAX 100;
+#define MAX 100
+
+void criptografar();
 
 int main( int argc, char *argv[ ]){	
 	int i,x,y;
 	for(i=0;i< argc;i++){
 		x = strcmp( argv[i],"-c");
-		y = strcmp( argv[i],"-d")
+		y = strcmp( argv[i],"-d");
 		if( x == 0 ){
 			criptografar();
 			break;
 		}
-		if( y == 0){
+		/*if( y == 0){
 			descriptografar();
 			break;
-		}
+		}*/
 	}
 	return 0;
 }
 
+void pegachavecripto();
+
 void criptografar(){
-	int vetint[MAX]={'\0'};	
+	char vetint[MAX]={'\0'};		
+	
 	while(fgets(vetint,MAX,stdin) != NULL){
-		
+		pegachavecripto();
 	}	
+}
+
+void pegachavecripto(){
+	int a=0,b=0;
+	FILE *file;
+	file = fopen("numcripto.txt" , "r");
+	fscanf(file,"%d %d", &a,&b);
+	fclose(file);
+	printf("%d %d \n", a,b);
 }
