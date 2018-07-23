@@ -26,10 +26,16 @@ int main( int argc, char *argv[ ]){
 void pegachavecripto();
 
 void criptografar(){
-	char vetint[MAX]={'\0'};		
+	char vetint[MAX]={'\0'};
+	int i;		
 	
 	while(fgets(vetint,MAX,stdin) != NULL){
-		pegachavecripto();
+		for(i=0;i<MAX;i++){
+			if(vetint[i] !=0 && vetint[i] != '\0'){
+				printf("%d ",vetint[i]);
+			}
+		}
+		//pegachavecripto();		
 	}	
 }
 
@@ -39,5 +45,5 @@ void pegachavecripto(){
 	file = fopen("numcripto.txt" , "r");
 	fscanf(file,"%d %d", &a,&b);
 	fclose(file);
-	printf("%d %d \n", a,b);
+	
 }
