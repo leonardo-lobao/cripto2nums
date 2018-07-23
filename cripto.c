@@ -26,24 +26,26 @@ int main( int argc, char *argv[ ]){
 void pegachavecripto();
 
 void criptografar(){
-	char vetint[MAX]={'\0'};
-	int i;		
+	char vetint[MAX]={'\0'};			
 	
-	while(fgets(vetint,MAX,stdin) != NULL){
-		for(i=0;i<MAX;i++){
-			if(vetint[i] !=0 && vetint[i] != '\0'){
-				printf("%d ",vetint[i]);
-			}
-		}
-		//pegachavecripto();		
+	while(fgets(vetint,MAX,stdin) != NULL){		
+		pegachavecripto();		
 	}	
 }
 
+void geradecomposto(int b,int vetdecomposto[]);
+
 void pegachavecripto(){
+	int vetdecomposto[MAX]={'\0'};
 	int a=0,b=0;
 	FILE *file;
 	file = fopen("numcripto.txt" , "r");
 	fscanf(file,"%d %d", &a,&b);
 	fclose(file);
+	geradecomposto(b,vetdecomposto);
+	
+}
+
+void geradecomposto(int b,int vetdecomposto[]){
 	
 }
