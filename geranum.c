@@ -4,13 +4,11 @@
 #define MAX 100
 
 int testeprimo(char num1[],char num2[]);
-int numscripto(char num1[],char num2[]);
-void numsdescripto(int chave,char num1[],char num2[]);
+void gera_txts(char num1[],char num2[]);
 
 int main(){
 	char num1[MAX] = {'\0'};
-	char num2[MAX] = {'\0'};
-	int chave;	
+	char num2[MAX] = {'\0'};		
 	
 	printf("Insira o primeiro número primo: ");
 	fgets(num1,MAX,stdin);
@@ -18,8 +16,7 @@ int main(){
 	fgets(num2,MAX,stdin);
 	
 	if(testeprimo(num1,num2)){
-		chave = numscripto(num1,num2);	
-		numsdescripto(chave,num1,num2);
+		gera_txts(num1,num2);			
 	}
 	else{
 		printf("Erro o número inserido não é primo!!!! \n");
@@ -51,24 +48,10 @@ int testeprimo(char num1[],char num2[]){   //testa se é primo
 	}
 }
 
-void numsdescripto(int chave,char num1[],char num2[]){
-	int chaveprivada = 0,y = 0,numero1=0,numero2=0;
-	FILE *file2;
-	
-	numero1 = atoi(num1);
-	numero2 = atoi(num2);
-	y = (numero1 -1) * (numero2 -1);
-	while( (5*chaveprivada)% y != 1){		
-			chaveprivada++;		
-	}
-	file2 = fopen("numdescripto.txt","w");
-	fprintf(file2,"%d  %d",chave,chaveprivada);
-	fclose(file2);
-}
-
 int achachave2(int numero1, int numero2);
+void numsdescripto(int chave1,int chave2,char num1[],char num2[]);
 
-int numscripto(char num1[],char num2[]){
+void gera_txts(char num1[],char num2[]){  
 	int numero1,numero2,chave1,chave2;
 	FILE *file;
 	
@@ -79,8 +62,8 @@ int numscripto(char num1[],char num2[]){
 	file = fopen("numcripto.txt","w");
 	fprintf(file,"%d  %d",chave1,chave2);
 	fclose(file);
-		
-	return chave1;
+	
+	numsdescripto(chave1,chave2,num1,num2);	//gera numdescripto.txt
 }
 
 int fatorar(int y);
@@ -96,7 +79,7 @@ int achachave2(int numero1, int numero2){
 
 int fatorar(int y){  //gera um vetor com a fatoracao do numero y	
 	int vetfatoracao[MAX] = {'\0'};
-	int x=0,i=0,segundachave,w=2,tam=0;
+	int x=0,i=0,segundachave,w=2,tam=0;  
 	
 	x = y;	
 	while( x != 1){			
@@ -107,8 +90,8 @@ int fatorar(int y){  //gera um vetor com a fatoracao do numero y
 		else{
 			w++;
 		}	
-	}
-	w=2;
+	}		
+	w=2;		
 	while(i<tam){
 		if(w%vetfatoracao[i] == 0){
 			w++;
@@ -116,13 +99,28 @@ int fatorar(int y){  //gera um vetor com a fatoracao do numero y
 		}
 		else if(w%vetfatoracao[i] != 0 && i == (tam-1)){
 			segundachave = w;
-			i++;			
+			i++;					
 		}
 		else if(w%vetfatoracao[i] != 0){
 			i++;
 		}
-	}
-		
+	}	
+			
 	return segundachave;	
+}
+
+void numsdescripto(int chave1,int chave2,char num1[],char num2[]){
+	int chaveprivada = 0,y = 0,numero1=0,numero2=0;
+	FILE *file2;
+	
+	numero1 = atoi(num1);
+	numero2 = atoi(num2);
+	y = (numero1 -1) * (numero2 -1);
+	while( (chave2*chaveprivada)% y != 1){		
+			chaveprivada++;		
+	}
+	file2 = fopen("numdescripto.txt","w");
+	fprintf(file2,"%d  %d",chave1,chaveprivada);
+	fclose(file2);
 }
 
