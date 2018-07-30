@@ -28,31 +28,37 @@ int pega_valor_do_txt(int x,int vetdecomposto[]);
 
 int gera_cripto_txt(int c,int a2,int vetdecomposto[]);
 
-void gera_saida_txt(int vari);
-
-void gera_decode_txt(int vari);
-
 void criptografar(int x){
 	int vetdecomposto[MAX]={'\0'};   //armazena a chave decomposta em partes
 	int c,a2,vari;	
+	FILE *file2,*file3;
 		
 	if(x==0){		
-		a2 = pega_valor_do_txt(x,vetdecomposto);	
+		a2 = pega_valor_do_txt(x,vetdecomposto);
+		file2 = fopen("saída.bin","w");	
 		while((c = getchar()) != EOF ) {
 			if( c !=10){		//retira o \n
 				vari = gera_cripto_txt(c,a2,vetdecomposto);	
-				gera_saida_txt(vari);
+				fwrite(&vari, sizeof(int),1,file2);
 			}			
-		}	
+		}
+		fclose(file2);	
 	}
 	else{
-		a2 = pega_valor_do_txt(x,vetdecomposto);		
-		while((c = getchar()) != EOF ) {
+		a2 = pega_valor_do_txt(x,vetdecomposto);
+		file2 = fopen("saída.bin","r");	
+		file3 = fopen("decode.txt","w");
+		fread(&c, sizeof(int),1,file2);
+		while(c) {
 			if( c !=10){		//retira o \n
+				printf("%d \n",c);
 				vari = gera_cripto_txt(c,a2,vetdecomposto);	
-				gera_decode_txt(vari);
+				fprintf(file3,"%c",vari);
+				fread(&c, sizeof(int),1,file2);
 			}			
-		}	
+		}
+		fclose(file2);	
+		fclose(file3);
 	}
 }
 
@@ -157,19 +163,5 @@ int gera_cripto_txt(int c,int a2,int vetdecomposto[]){
 	return var;	
 }
 
-void gera_saida_txt(int vari){   //gera o arquivo saida.txt
-	FILE *file2;
-	
-	file2 = fopen("saída.txt","a");
-	fprintf(file2,"%c",vari);
-	fclose(file2);	
-}
 
-void gera_decode_txt(int vari){   // gera arquivo decode.txt
-	FILE *file2;
-	
-	file2 = fopen("decode.txt","a");
-	fprintf(file2,"%c",vari);
-	fclose(file2);		
-}
 
