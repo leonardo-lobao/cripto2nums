@@ -33,7 +33,7 @@ void criptografar(int x){
 	int c,a2,vari;	
 	FILE *file2,*file3;
 		
-	if(x==0){		
+	if(x==0){		      //testa se a operação a ser realizada é codificar 
 		a2 = pega_valor_do_txt(x,vetdecomposto);
 		file2 = fopen("saída.bin","w");	
 		while((c = getchar()) != EOF ) {
@@ -44,18 +44,19 @@ void criptografar(int x){
 		}
 		fclose(file2);	
 	}
-	else{
+	else{              //decodifica
 		a2 = pega_valor_do_txt(x,vetdecomposto);
 		file2 = fopen("saída.bin","r");	
 		file3 = fopen("decode.txt","w");
-		fread(&c, sizeof(int),1,file2);
-		while(c) {
-			if( c !=10){		//retira o \n
-				printf("%d \n",c);
-				vari = gera_cripto_txt(c,a2,vetdecomposto);	
-				fprintf(file3,"%c",vari);
-				fread(&c, sizeof(int),1,file2);
-			}			
+		fread(&c, sizeof(int),1,file2);		
+			
+		for(;;) {							
+			if(feof(file2)){
+				break;
+			}				
+			vari = gera_cripto_txt(c,a2,vetdecomposto);	
+			fprintf(file3,"%c",vari);
+			fread(&c, sizeof(int),1,file2);
 		}
 		fclose(file2);	
 		fclose(file3);
@@ -162,6 +163,5 @@ int gera_cripto_txt(int c,int a2,int vetdecomposto[]){
 	var = k % a2;			//resultado desejado		
 	return var;	
 }
-
 
 
