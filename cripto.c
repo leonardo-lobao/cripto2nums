@@ -37,10 +37,8 @@ void criptografar(int x){
 		a2 = pega_valor_do_txt(x,vetdecomposto);
 		file2 = fopen("saída.bin","w");	
 		while((c = getchar()) != EOF ) {
-			if( c !=10){		//retira o \n
-				vari = gera_cripto_txt(c,a2,vetdecomposto);	
-				fwrite(&vari, sizeof(int),1,file2);
-			}			
+			vari = gera_cripto_txt(c,a2,vetdecomposto);					
+			fwrite(&vari, sizeof(int),1,file2);						
 		}
 		fclose(file2);	
 	}
@@ -54,7 +52,7 @@ void criptografar(int x){
 			if(feof(file2)){
 				break;
 			}				
-			vari = gera_cripto_txt(c,a2,vetdecomposto);	
+			vari = gera_cripto_txt(c,a2,vetdecomposto);			
 			fprintf(file3,"%c",vari);
 			fread(&c, sizeof(int),1,file2);
 		}
@@ -112,18 +110,19 @@ void preenche_decomposto(int b,int vetdecomposto[]){
 		else if(vetbits[i] == 0){
 			aux = 2*aux;			
 		}
-	}  	
+	} 	
 }
 
 int gera_cripto_txt(int c,int a2,int vetdecomposto[]){
 	int vet2[MAX]= {'\0'};	
-	int tam = 0,i,z,j=0,var=0,contador,ind,k=0;
+	int tam = 0,i,z,j=0,var=0,contador,ind;
+	long long k=0;
 	
 	while ( (i=vetdecomposto[tam]) != '\0'){   //para descobrir quantos elementos tem em vet1
 		tam++;
 	}	
 				
-	z= c%a2;
+	z= c%a2;				
 	for(i=0;i<tam;i++){       //prenche o vet2 com as partes da conta final
 		contador = 0 ;
 		if( vetdecomposto[i] ==1){
@@ -135,13 +134,12 @@ int gera_cripto_txt(int c,int a2,int vetdecomposto[]){
 			var = var/2;
 			contador++;
 		}		
-		k= z;	
+		k = z;	
 		for(ind=0;ind<contador;ind++){
 			k = (k*k)%a2;
 		}
 		vet2[j++] = k;		
-	}                        // vet2 preenchido
-			
+	}                        // vet2 preenchido			
 	for (i=0;i<tam;i++){	 //multiplica as partes da conta para obter o resultado desejado
 		if(tam==1){
 			k = vet2[i];
@@ -158,10 +156,9 @@ int gera_cripto_txt(int c,int a2,int vetdecomposto[]){
 			break;
 		}
 		var = vet2[i];
-		k = k * var;
+		k = ((k%a2) * (var%a2))%a2;		
 	}
 	var = k % a2;			//resultado desejado		
 	return var;	
 }
-
 
